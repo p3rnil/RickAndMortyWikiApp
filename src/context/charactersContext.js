@@ -34,7 +34,10 @@ const charactersReducer = (state, action) => {
 
 const CharactersProvider = ({children}) => {
   const [state, dispatch] = useReducer(charactersReducer, {
-    characters: [],
+    characters: {
+      info: {},
+      results: [],
+    },
     status: '',
     error: '',
   });
@@ -76,7 +79,14 @@ const getCharacters = async (dispatch, page, filter) => {
         query: GET_CHARACTERS,
         variables: {page, filter},
       })
-      .then((response) => response.data.data.characters);
+      .then((response) =>
+        response.data.data.characters
+          ? response.data.data.characters
+          : {info: {}, characters: []},
+      )
+      .catch((error) => {
+        throw error;
+      });
 
     dispatch({type: 'finish update', payload: characters});
   } catch (error) {

@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {CharacterCard} from '../components';
 import {
   Text,
+  TextInput,
   SafeAreaView,
   StyleSheet,
   FlatList,
@@ -17,20 +19,19 @@ import {
 
 const CharactersScreen = () => {
   const page = useRef(1);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({name: ''});
   const {characters} = useCharactersState();
   const charactersDispatch = useCharactersDispatch();
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
     page.current = 1;
-  }, [filter]);
-
-  useEffect(() => {
-    getCharacters(charactersDispatch, page.current, filter);
+    await getCharacters(charactersDispatch, page.current, filter);
     page.current++;
-  }, []);
+    setIsFirstLoading(false);
+  }, [charactersDispatch, filter]);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -44,8 +45,6 @@ const CharactersScreen = () => {
 
   const handleOnEndReached = useCallback(async () => {
     if (!isLoadingMore && page.current <= characters.info.pages) {
-      console.log('Bu');
-
       setIsLoadingMore(true);
       await getMoreCharacters(charactersDispatch, page.current, filter);
       setIsLoadingMore(false);
@@ -53,18 +52,31 @@ const CharactersScreen = () => {
     }
   }, [characters, charactersDispatch, filter, isLoadingMore]);
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     // Check If Loading
     if (isLoadingMore) {
       return <ActivityIndicator color="tomato" />;
     } else {
       return null;
     }
-  };
+  }, [isLoadingMore]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.view}>
-      {characters ? (
+      <TextInput
+        style={styles.input}
+        onSubmitEditing={({nativeEvent}) => fetchData()}
+        onChangeText={(text) => setFilter({name: text})}
+        placeholder={'Search...'}
+        autoCorrect={false}
+        clearTextOnFocus={true}
+        value={filter.name}
+      />
+      {!isFirstLoading ? (
         <FlatList
           style={styles.list}
           data={characters.results}
@@ -72,6 +84,7 @@ const CharactersScreen = () => {
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0}
           renderItem={({item}) => <CharacterCard data={item} />}
+          ListEmptyComponent={<Text>Empty list</Text>}
           refreshControl={
             <RefreshControl
               tintColor="tomato"
@@ -90,6 +103,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
   },
+  input: {paddingHorizontal: 15},
   list: {
     paddingHorizontal: 15,
   },
