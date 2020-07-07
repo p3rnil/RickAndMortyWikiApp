@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {CharacterCard} from '../components';
 import {
+  Text,
   SafeAreaView,
   StyleSheet,
   FlatList,
@@ -42,13 +43,15 @@ const CharactersScreen = () => {
   }, []);
 
   const handleOnEndReached = useCallback(async () => {
-    if (page.current <= characters.info.pages) {
+    if (!isLoadingMore && page.current <= characters.info.pages) {
+      console.log('Bu');
+
       setIsLoadingMore(true);
       await getMoreCharacters(charactersDispatch, page.current, filter);
       setIsLoadingMore(false);
       page.current++;
     }
-  }, [characters]);
+  }, [characters, charactersDispatch, filter, isLoadingMore]);
 
   const renderFooter = () => {
     // Check If Loading
