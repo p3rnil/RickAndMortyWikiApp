@@ -3,10 +3,10 @@ import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import SearchList from '../components/SearchList';
 
-const CharactersScreen = () => {
+const CharactersScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.view}>
-      <SearchList />
+      <SearchList navigation={navigation} />
     </SafeAreaView>
   );
 };

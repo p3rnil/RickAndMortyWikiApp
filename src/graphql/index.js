@@ -1,3 +1,3 @@
-import {GET_CHARACTERS} from './queries';
+import {GET_CHARACTERS, GET_CHARACTER} from './queries';
 
-export {GET_CHARACTERS};
+export {GET_CHARACTERS, GET_CHARACTER};
