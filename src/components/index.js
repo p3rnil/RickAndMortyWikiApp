@@ -1,3 +1,3 @@
-import CharacterCard from './CharacterCard';
+import CharacterCard from './cards/CharacterCard';
 
 export {CharacterCard};

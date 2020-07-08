@@ -5,10 +5,12 @@ import {
   Text,
   TextInput,
   View,
+  TouchableOpacity,
   StyleSheet,
   FlatList,
   RefreshControl,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {
   useCharactersState,
@@ -17,7 +19,7 @@ import {
   getMoreCharacters,
 } from '../context';
 
-const SearchList = () => {
+const SearchList = ({navigation}) => {
   const page = useRef(1);
   const [filter, setFilter] = useState({name: ''});
   const {characters} = useCharactersState();
@@ -41,7 +43,7 @@ const SearchList = () => {
     setTimeout(() => {
       setIsRefreshing(false);
     }, 1000);
-  }, []);
+  }, [filter]);
 
   const handleOnEndReached = useCallback(async () => {
     if (!isLoadingMore && page.current <= characters.info.pages) {
@@ -83,7 +85,14 @@ const SearchList = () => {
           keyExtractor={(item, index) => String(index)}
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0}
-          renderItem={({item}) => <CharacterCard data={item} />}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('CharacterDetail', {id: item.id})
+              }>
+              <CharacterCard data={item} />
+            </TouchableOpacity>
+          )}
           ListEmptyComponent={<Text>Empty list</Text>}
           refreshControl={
             <RefreshControl
