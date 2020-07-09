@@ -24,9 +24,11 @@ const LocationDetail = ({navigation, route}) => {
   );
 
   if (loading) {
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator color="tomato" size="large" />
-    </View>;
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator color="tomato" size="large" />
+      </View>
+    );
   }
 
   if (error) {
