@@ -34,7 +34,6 @@ const SearchList = ({navigation}) => {
     page.current++;
     setIsFirstLoading(false);
   }, [charactersDispatch, filter]);
-  console.log(filter);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
