@@ -71,15 +71,17 @@ const SearchList = ({navigation}) => {
 
   return (
     <View style={[styles.view]}>
-      <TextInput
-        style={[styles.input]}
-        onSubmitEditing={({nativeEvent}) => fetchData()}
-        onChangeText={(text) => setFilter({name: text})}
-        placeholder={'Search...'}
-        autoCorrect={false}
-        clearTextOnFocus={true}
-        value={filter.name}
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={[styles.input]}
+          onSubmitEditing={({nativeEvent}) => fetchData()}
+          onChangeText={(text) => setFilter({name: text})}
+          placeholder={'Search...'}
+          autoCorrect={false}
+          clearTextOnFocus={true}
+          value={filter.name}
+        />
+      </View>
       {!isFirstLoading ? (
         <FlatList
           style={styles.list}
@@ -113,8 +115,25 @@ const SearchList = ({navigation}) => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
+    paddingTop: 15,
   },
-  input: {paddingHorizontal: 15},
+  inputWrapper: {
+    paddingHorizontal: 15,
+    marginBottom: 5,
+  },
+  input: {
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    borderRadius: 100,
+    padding: 15,
+  },
   list: {
     paddingHorizontal: 15,
   },
