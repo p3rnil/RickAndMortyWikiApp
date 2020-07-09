@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import {GET_CHARACTER} from '../../graphql';
 import {EpisodeCard} from '../cards';
@@ -6,19 +6,32 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  TouchableOpacity,
+  RefreshControl,
   View,
   Text,
   Image,
   StyleSheet,
 } from 'react-native';
 
-const CharacterDetail = ({route}) => {
+const CharacterDetail = ({navigation, route}) => {
   const {loading, error, data} = useQuery(GET_CHARACTER, {
     variables: {id: route.params.id},
   });
 
+  const toLocationDetail = useCallback(() => {
+    if (data?.character?.origin?.id) {
+      navigation.navigate('LocationDetail', {id: data.character.origin.id});
+    }
+  }, [data]);
+
   if (loading) {
-    return <Text>Loading...</Text>;
+    return null;
+    // return (
+    //   <ScrollView>
+    //     <RefreshControl tintColor="tomato" refreshing={true} />
+    //   </ScrollView>
+    // );
   }
 
   if (error) {
@@ -62,26 +75,28 @@ const CharacterDetail = ({route}) => {
             ) : null}
           </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Origin: </Text>
-            {data.character.origin.id ? (
-              <>
+          <TouchableOpacity onPress={toLocationDetail}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Origin: </Text>
+              {data.character.origin.id ? (
+                <>
+                  <View style={styles.subSection}>
+                    <Text>{`Name:  ${data.character.origin.name}`}</Text>
+                  </View>
+                  <View style={styles.subSection}>
+                    <Text>{`Type:  ${data.character.origin.type}`}</Text>
+                  </View>
+                  <View style={styles.subSection}>
+                    <Text>{`Dimension:  ${data.character.origin.dimension}`}</Text>
+                  </View>
+                </>
+              ) : (
                 <View style={styles.subSection}>
-                  <Text>{`Name:  ${data.character.origin.name}`}</Text>
+                  <Text>Unknown</Text>
                 </View>
-                <View style={styles.subSection}>
-                  <Text>{`Type:  ${data.character.origin.type}`}</Text>
-                </View>
-                <View style={styles.subSection}>
-                  <Text>{`Dimension:  ${data.character.origin.dimension}`}</Text>
-                </View>
-              </>
-            ) : (
-              <View style={styles.subSection}>
-                <Text>Unknown</Text>
-              </View>
-            )}
-          </View>
+              )}
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Current Location: </Text>
@@ -124,6 +139,7 @@ const CharacterDetail = ({route}) => {
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: '#f9f6f4',
   },
   scrollView: {
     paddingHorizontal: 15,
@@ -139,6 +155,18 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 15,
+    flex: 1,
+    padding: 15,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    borderRadius: 5,
+    elevation: 1,
   },
   subSection: {
     marginBottom: 10,
