@@ -53,4 +53,24 @@ const GET_CHARACTER = gql`
   }
 `;
 
-export {GET_CHARACTERS, GET_CHARACTER};
+const GET_LOCATION = gql`
+  query getLocation($id: ID) {
+    location(id: $id) {
+      name
+      type
+      dimension
+      residents {
+        id
+        name
+        status
+        image
+        origin {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export {GET_CHARACTERS, GET_CHARACTER, GET_LOCATION};

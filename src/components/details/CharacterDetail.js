@@ -7,7 +7,7 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
-  RefreshControl,
+  ActivityIndicator,
   View,
   Text,
   Image,
@@ -32,12 +32,11 @@ const CharacterDetail = ({navigation, route}) => {
   }, [data]);
 
   if (loading) {
-    return null;
-    // return (
-    //   <ScrollView>
-    //     <RefreshControl tintColor="tomato" refreshing={true} />
-    //   </ScrollView>
-    // );
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator color="tomato" size="large" />
+      </View>
+    );
   }
 
   if (error) {

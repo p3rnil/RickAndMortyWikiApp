@@ -1,3 +1,4 @@
 import EpisodeCard from './EpisodeCard';
+import CharacterCard from './CharacterCard';
 
-export {EpisodeCard};
+export {EpisodeCard, CharacterCard};
