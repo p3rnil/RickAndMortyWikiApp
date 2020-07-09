@@ -19,9 +19,15 @@ const CharacterDetail = ({navigation, route}) => {
     variables: {id: route.params.id},
   });
 
-  const toLocationDetail = useCallback(() => {
+  const toOriginDetail = useCallback(() => {
     if (data?.character?.origin?.id) {
       navigation.navigate('LocationDetail', {id: data.character.origin.id});
+    }
+  }, [data]);
+
+  const toCurrentLocationDetail = useCallback(() => {
+    if (data?.character?.location?.id) {
+      navigation.navigate('LocationDetail', {id: data.character.location.id});
     }
   }, [data]);
 
@@ -75,7 +81,7 @@ const CharacterDetail = ({navigation, route}) => {
             ) : null}
           </View>
 
-          <TouchableOpacity onPress={toLocationDetail}>
+          <TouchableOpacity onPress={toOriginDetail}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Origin: </Text>
               {data.character.origin.id ? (
@@ -98,26 +104,28 @@ const CharacterDetail = ({navigation, route}) => {
             </View>
           </TouchableOpacity>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Current Location: </Text>
-            {data.character.location.id ? (
-              <>
+          <TouchableOpacity onPress={toCurrentLocationDetail}>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Current Location: </Text>
+              {data.character.location.id ? (
+                <>
+                  <View style={styles.subSection}>
+                    <Text>{`Name:  ${data.character.location.name}`}</Text>
+                  </View>
+                  <View style={styles.subSection}>
+                    <Text>{`Type:  ${data.character.location.type}`}</Text>
+                  </View>
+                  <View style={styles.subSection}>
+                    <Text>{`Dimension:  ${data.character.location.dimension}`}</Text>
+                  </View>
+                </>
+              ) : (
                 <View style={styles.subSection}>
-                  <Text>{data.character.location.name}</Text>
+                  <Text>Unknown</Text>
                 </View>
-                <View style={styles.subSection}>
-                  <Text>{data.character.location.type}</Text>
-                </View>
-                <View style={styles.subSection}>
-                  <Text>{data.character.location.dimension}</Text>
-                </View>
-              </>
-            ) : (
-              <View style={styles.subSection}>
-                <Text>Unknown</Text>
-              </View>
-            )}
-          </View>
+              )}
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Episodes: </Text>
