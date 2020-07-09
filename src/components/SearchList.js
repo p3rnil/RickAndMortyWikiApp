@@ -34,16 +34,18 @@ const SearchList = ({navigation}) => {
     page.current++;
     setIsFirstLoading(false);
   }, [charactersDispatch, filter]);
+  console.log(filter);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
     page.current = 1;
-    await getCharacters(charactersDispatch, page.current, filter);
+    setFilter({name: ''});
+    await getCharacters(charactersDispatch, page.current, {name: ''});
     page.current++;
     setTimeout(() => {
       setIsRefreshing(false);
     }, 1000);
-  }, [filter]);
+  }, []);
 
   const handleOnEndReached = useCallback(async () => {
     if (!isLoadingMore && page.current <= characters.info.pages) {
