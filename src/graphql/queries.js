@@ -53,6 +53,26 @@ const GET_CHARACTER = gql`
   }
 `;
 
+const GET_EPISODE = gql`
+  query getEpisode($id: ID) {
+    episode(id: $id) {
+      name
+      air_date
+      episode
+      characters {
+        id
+        name
+        status
+        image
+        origin {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const GET_LOCATION = gql`
   query getLocation($id: ID) {
     location(id: $id) {
@@ -73,4 +93,4 @@ const GET_LOCATION = gql`
   }
 `;
 
-export {GET_CHARACTERS, GET_CHARACTER, GET_LOCATION};
+export {GET_CHARACTERS, GET_CHARACTER, GET_LOCATION, GET_EPISODE};

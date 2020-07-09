@@ -31,6 +31,12 @@ const CharacterDetail = ({navigation, route}) => {
     }
   }, [data]);
 
+  const toEpisodeDetail = useCallback((id) => {
+    if (id) {
+      navigation.navigate('EpisodeDetail', {id});
+    }
+  }, []);
+
   if (loading) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -134,7 +140,11 @@ const CharacterDetail = ({navigation, route}) => {
               ItemSeparatorComponent={() => <View style={styles.separator} />}
               data={data.character.episode}
               keyExtractor={(item) => String(item.id)}
-              renderItem={({item}) => <EpisodeCard data={item} />}
+              renderItem={({item}) => (
+                <TouchableOpacity onPress={() => toEpisodeDetail(item.id)}>
+                  <EpisodeCard data={item} />
+                </TouchableOpacity>
+              )}
             />
           </View>
         </View>
