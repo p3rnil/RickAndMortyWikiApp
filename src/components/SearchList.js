@@ -61,7 +61,9 @@ const SearchList = ({navigation}) => {
   const renderFooter = useCallback(() => {
     // Check If Loading
     if (isLoadingMore) {
-      return <ActivityIndicator color="tomato" />;
+      return (
+        <ActivityIndicator style={styles.activityIndicator} color="tomato" />
+      );
     } else {
       return null;
     }
@@ -151,6 +153,9 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 15,
+  },
+  activityIndicator: {
+    marginVertical: 15,
   },
 });
 
