@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -48,6 +49,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <CharactersProvider>
+        <StatusBar barStyle="dark-content" />
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName="Launches"
