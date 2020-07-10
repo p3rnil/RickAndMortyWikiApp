@@ -11,6 +11,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   SafeAreaView,
+  Animated,
 } from 'react-native';
 import {
   useCharactersState,
@@ -18,6 +19,8 @@ import {
   getCharacters,
   getMoreCharacters,
 } from '../context';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const SearchList = ({navigation}) => {
   const page = useRef(1);
@@ -64,9 +67,18 @@ const SearchList = ({navigation}) => {
     }
   }, [isLoadingMore]);
 
+  const onPress = useCallback((id) => {
+    navigation.navigate('CharacterDetail', {id});
+  }, []);
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const y = useRef(new Animated.Value(0)).current;
+  const onScroll = Animated.event([{nativeEvent: {contentOffset: {y}}}], {
+    useNativeDriver: true,
+  });
 
   return (
     <View style={[styles.view]}>
@@ -82,19 +94,23 @@ const SearchList = ({navigation}) => {
         />
       </View>
       {!isFirstLoading ? (
-        <FlatList
+        <AnimatedFlatList
+          {...{onScroll}}
+          scrollEventThrottle={16}
           style={styles.list}
           data={characters.results}
           keyExtractor={(item, index) => String(index)}
           onEndReached={handleOnEndReached}
           onEndReachedThreshold={0}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CharacterDetail', {id: item.id})
-              }>
-              <CharacterCard data={item} />
-            </TouchableOpacity>
+          renderItem={({item, index}) => (
+            <CharacterCard
+              {...{
+                data: item,
+                y,
+                onPress: () => onPress(item.id),
+                index: index,
+              }}
+            />
           )}
           ListEmptyComponent={<Text>Empty list</Text>}
           refreshControl={
