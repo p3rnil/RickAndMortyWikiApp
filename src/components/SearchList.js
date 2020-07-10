@@ -87,6 +87,7 @@ const SearchList = ({navigation}) => {
       <View style={styles.inputWrapper}>
         <TextInput
           style={[styles.input]}
+          placeholderTextColor="grey"
           onSubmitEditing={({nativeEvent}) => fetchData()}
           onChangeText={(text) => setFilter({name: text})}
           placeholder={'Search...'}
@@ -150,6 +151,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 100,
     padding: 15,
+    color: 'black',
   },
   list: {
     paddingHorizontal: 15,
