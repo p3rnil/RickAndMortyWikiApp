@@ -5,12 +5,10 @@ import {
   Text,
   TextInput,
   View,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  SafeAreaView,
   Animated,
 } from 'react-native';
 import {

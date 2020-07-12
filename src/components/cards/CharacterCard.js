@@ -22,18 +22,18 @@ const CharacterCard = ({data, y, onPress, index}) => {
     y.interpolate({
       inputRange: [0, 0.00001 + index * (150 + 7.5 * 2)],
       outputRange: [0.00001, -index * (150 + 7.5 * 2)],
-      extrapolateRight: 'clamp',
+      //∫extrapolateRight: 'clamp',
     }),
   );
   const scale = position.interpolate({
     inputRange: [isDisappearing, isTop, isBottom, isAppearing],
     outputRange: [0.5, 1, 1, 0.5],
-    extrapolate: 'clamp',
+    //extrapolate: 'clamp',
   });
   const opacity = position.interpolate({
     inputRange: [isDisappearing, isTop, isBottom, isAppearing],
-    outputRange: [0.5, 1, 1, 0.5],
-    extrapolate: 'clamp',
+    outputRange: [0, 1, 1, 0],
+    //extrapolate: 'clamp',
   });
 
   return (
@@ -54,10 +54,10 @@ const CharacterCard = ({data, y, onPress, index}) => {
                 {data.name}
               </Text>
               <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
-                {data.origin.name}
+                {`Origin: ${data.origin.name}`}
               </Text>
               <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
-                {data.status}
+                {`Status: ${data.status}`}
               </Text>
             </View>
           </View>

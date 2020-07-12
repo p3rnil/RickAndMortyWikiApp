@@ -135,6 +135,7 @@ const CharacterDetail = ({navigation, route}) => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Episodes: </Text>
             <FlatList
+              style={styles.list}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -157,6 +158,9 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: '#f9f6f4',
+  },
+  list: {
+    padding: 5,
   },
   scrollView: {
     paddingHorizontal: 15,

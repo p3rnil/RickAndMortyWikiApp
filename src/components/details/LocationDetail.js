@@ -41,7 +41,7 @@ const LocationDetail = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.view}>
+      <View style={[styles.view, styles.center]}>
         <Text style={styles.h1} numberOfLines={1} ellipsizeMode="tail">
           {data.location.name}
         </Text>
@@ -51,6 +51,9 @@ const LocationDetail = ({navigation, route}) => {
         <Text style={styles.h3} numberOfLines={1} ellipsizeMode="tail">
           {data.location.dimension}
         </Text>
+      </View>
+      <View style={styles.view}>
+        <Text style={styles.h1}>Characters:</Text>
       </View>
       <FlatList
         style={styles.list}
@@ -91,11 +94,13 @@ const LocationDetail = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   safeArea: {flex: 1},
-
   view: {
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  center: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 15,
   },
   h1: {
     fontSize: 30,
@@ -113,8 +118,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    marginTop: 30,
-    padding: 15,
+    paddingHorizontal: 15,
   },
   columnWrapper: {
     justifyContent: 'space-between',
