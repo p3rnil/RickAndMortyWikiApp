@@ -102,7 +102,7 @@ const SearchList = ({navigation}) => {
           data={characters.results}
           keyExtractor={(item, index) => String(index)}
           onEndReached={handleOnEndReached}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={1}
           renderItem={({item, index}) => (
             <CharacterCard
               {...{
