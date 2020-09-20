@@ -54,7 +54,7 @@ const GET_CHARACTER = gql`
 `;
 
 const GET_EPISODE = gql`
-  query getEpisode($id: ID) {
+  query getEpisode($id: ID!) {
     episode(id: $id) {
       name
       air_date
@@ -74,7 +74,7 @@ const GET_EPISODE = gql`
 `;
 
 const GET_LOCATION = gql`
-  query getLocation($id: ID) {
+  query getLocation($id: ID!) {
     location(id: $id) {
       name
       type
